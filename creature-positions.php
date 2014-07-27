@@ -4,9 +4,11 @@ require_once 'Creature.php';
 require_once 'ChromosomePair.php';
 require_once 'ColorChromosome.php';
 
-$color = new ColorChromosome("0,1;1,1;0,1;0,1;1,1;0,0;1,1;1,0");
+require_once 'MongoCreatureRepository.php';
 
-$creature = new Creature(29, 5, 2);
-$creature->addToGenome($color);
+$creatureCollection = (new \MongoClient())->instinctdb->creature;
+$creatureRepository = new MongoCreatureRepository($creatureCollection);
+
+$creature = $creatureRepository->findOneById(1);
 
 echo json_encode(array($creature->toArray()));
