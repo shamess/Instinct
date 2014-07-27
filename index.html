@@ -1,61 +1,61 @@
-<!DOCTYPE html5>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Instinctual experiment</title>
+        <style>
+            .canvas {
+                margin: 0 auto;
+
+                width: 600px;
+                height: 600px;
+
+                background-color: #09EA76; 
+
+                position: relative;
+
+                border-radius: 10px;
+            }
+
+            .creature {
+                position: absolute;
+
+                height: 50px;
+                width: 50px;
+
+                display: block;
+
+                border-radius: 15px;
+            }
+        </style>
+        <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+        <script>
+            var Instinct = {};
+
+            Instinct.drawCreatures = function (creatures) {
+                creatures.forEach(function(creature) {
+                    this.drawCreature(creature);
+                }, this);
+            };
+
+            Instinct.drawCreature = function (creature) {
+                var creatureDom = $('<div>')
+                    .addClass('creature')
+                    .attr('id', 'creature' + creature.id)
+                    .css('left', (creature.x * 50) + "px")
+                    .css('top', (creature.y * 50) + "px")
+                    .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")");
+
+                $('.canvas').append(creatureDom);
+            };
+
+            $.ajax({
+                url: 'creature-positions.php',
+                success: Instinct.drawCreatures,
+                dataType: 'json',
+                context: Instinct
+            });
+        </script>
     </head>
-    <style>
-        .canvas {
-            margin: 0 auto;
-
-            width: 600px;
-            height: 600px;
-
-            background-color: #09EA76; 
-
-            position: relative;
-
-            border-radius: 10px;
-        }
-
-        .creature {
-            position: absolute;
-
-            height: 50px;
-            width: 50px;
-
-            display: block;
-
-            border-radius: 15px;
-        }
-    </style>
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-    <script>
-        var Instinct = {};
-
-        Instinct.drawCreatures = function (creatures) {
-            creatures.forEach(function(creature) {
-                this.drawCreature(creature);
-            }, this);
-        };
-
-        Instinct.drawCreature = function (creature) {
-            var creatureDom = $('<div>')
-                .addClass('creature')
-                .attr('id', 'creature' + creature.id)
-                .css('left', (creature.x * 50) + "px")
-                .css('top', (creature.y * 50) + "px")
-                .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")");
-
-            $('.canvas').append(creatureDom);
-        };
-
-        $.ajax({
-            url: 'creature-positions.php',
-            success: Instinct.drawCreatures,
-            dataType: 'json',
-            context: Instinct
-        });
-    </script>
     <body>
         <div class="canvas">
 
