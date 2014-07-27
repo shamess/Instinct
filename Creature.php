@@ -2,16 +2,15 @@
 
 class Creature
 {
-    private $x, $y, $id;
+    private $x, $y;
+    private $id = null;
 
     private $chromosomePairs = array();
 
-    public function __construct($id, $x, $y)
+    public function __construct($x, $y)
     {
         $this->x = $x;
         $this->y = $y;
-
-        $this->id = $id;
     }
 
     public function getColor()
@@ -22,7 +21,27 @@ class Creature
             return $color->getValue();
         }
 
-        return '#FFF';
+        return array('r' => 255, 'g' => 255, 'b' => 255);
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getX()
+    {
+        return $this->x;
+    }
+
+    public function getY()
+    {
+        return $this->y;
     }
 
     public function addToGenome(ChromosomePair $chromosomePair)
@@ -30,20 +49,34 @@ class Creature
         $this->chromosomePairs[$chromosomePair->getName()] = $chromosomePair;
     }
 
-    private function getChromosomePair($pairName)
+    public function reproduceByCloning($x, $y)
     {
-        return array_key_exists($pairName, $this->chromosomePairs) ?
-            $this->chromosomePairs[$pairName] : null;
+        $newCreature = new self($x, $y);
+
+        $newCreature->addToGenome($this->getChromosomePair('color'));
+
+        return $newCreature;
     }
 
     public function toArray()
     {
         return array(
-            'x' => $this->x,
-            'y' => $this->y,
-            'id' => $this->id,
+            'x' => $this->getX(),
+            'y' => $this->getY(),
+            'id' => $this->getId(),
 
             'color' => $this->getColor(),
         );
+    }
+
+    public function getChromosomePairs()
+    {
+        return $this->chromosomePairs;
+    }
+
+    private function getChromosomePair($pairName)
+    {
+        return array_key_exists($pairName, $this->chromosomePairs) ?
+            $this->chromosomePairs[$pairName] : null;
     }
 }

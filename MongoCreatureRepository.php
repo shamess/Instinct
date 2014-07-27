@@ -14,13 +14,55 @@ class MongoCreatureRepository
 
     public function findOneById($id)
     {
-        $creature = $this->creatures->findOne(array('_id' => $id));
+        $flatCreature = $this->creatures->findOne(array('_id' => $id));
 
-        $color = new ColorChromosome($creature['chromosomes']['color']);
+        $creature = $this->flatToCreature($flatCreature);
 
-        $creature = new Creature($id, $creature['x'], $creature['y']);
+        return $creature;
+    }
+
+    public function find()
+    {
+        $flatCreatures = $this->creatures->find();
+
+        $creatures = array();
+        foreach ($flatCreatures as $creature) {
+            $creatures[] = $this->flatToCreature($creature);
+        }
+
+        return $creatures;
+    }
+
+    private function flatToCreature(array $flatCreature)
+    {
+        $color = new ColorChromosome($flatCreature['chromosomes']['color']);
+
+        $creature = new Creature($flatCreature['x'], $flatCreature['y']);
+        $creature->setId($flatCreature['_id']);
         $creature->addToGenome($color);
 
         return $creature;
+    }
+
+    public function save(Creature $creature)
+    {
+        if (!$creature->getId()) {
+            throw new \Exception("Creature doesn't have an ID, so can't be saved. Use CreationRepostiory.");
+        }
+
+        $flatCreature = array(
+            'x' => $creature->getX(),
+            'y' => $creature->getY(),
+            'chromosomes' => array(),
+        );
+
+        foreach ($creature->getChromosomePairs() as $pair) {
+            $flatCreature['chromosomes'][$pair->getName()] = $pair->getGenesAsString();
+        }
+
+        $this->creatures->update(
+            array('_id' => $creature->getId()), array('$set' => $flatCreature),
+            array('upsert' => true)
+        );
     }
 }

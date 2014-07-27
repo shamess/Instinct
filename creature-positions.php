@@ -9,6 +9,11 @@ require_once 'MongoCreatureRepository.php';
 $creatureCollection = (new \MongoClient())->instinctdb->creature;
 $creatureRepository = new MongoCreatureRepository($creatureCollection);
 
-$creature = $creatureRepository->findOneById(1);
+$creatures = $creatureRepository->find();
 
-echo json_encode(array($creature->toArray()));
+$flatCreatures = array();
+foreach ($creatures as $creature) {
+    $flatCreatures[] = $creature->toArray();
+}
+
+echo json_encode($flatCreatures);

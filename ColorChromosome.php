@@ -2,18 +2,24 @@
 
 class ColorChromosome extends ChromosomePair
 {
-    private $genesSwitches;
+    private $genesSwitches, $genesString;
 
     public function __construct($genes)
     {
         parent::__construct("color");
 
+        $this->genesString = $genes;
         $this->genesSwitches = $this->geneStringToArray($genes);
     }
 
     public function getValue()
     {
         return $this->decideColor();
+    }
+
+    public function getGenesAsString()
+    {
+        return $this->genesString;
     }
 
     private function decideColor()

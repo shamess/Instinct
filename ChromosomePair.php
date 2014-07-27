@@ -30,4 +30,5 @@ abstract class ChromosomePair
     }
 
     abstract public function getValue();
+    abstract public function getGenesAsString();
 }
