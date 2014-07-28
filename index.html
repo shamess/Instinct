@@ -69,6 +69,10 @@
             };
 
             Instinct.drawCreature = function (creature) {
+                if ($('creature' + creature.id).length) {
+                    return;
+                }
+
                 var creatureDom = $('<div>')
                     .addClass('creature creature-dancing creature-spawning')
                     .attr('id', 'creature' + creature.id)
@@ -82,12 +86,14 @@
                 }, 501);
             };
 
-            $.ajax({
-                url: 'creature-positions.php',
-                success: Instinct.drawCreatures,
-                dataType: 'json',
-                context: Instinct
-            });
+            setInterval(function () {
+                $.ajax({
+                    url: 'creature-positions.php',
+                    success: Instinct.drawCreatures,
+                    dataType: 'json',
+                    context: Instinct
+                });
+            }, 5000);
         </script>
     </head>
     <body>

@@ -23,7 +23,11 @@ while (true) {
         sleep(5);
 
         if ($creature->wantsToReproduce()) {
-            $birthingPosition = $worldPositionRepository->findByXY($creature->getX() + rand(-1,1), $creature->getY() + rand(-1,1));
+            try {
+                $birthingPosition = $worldPositionRepository->findByXY($creature->getX() + rand(-1,1), $creature->getY() + rand(-1,1));
+            } catch (\OutOfBoundsException $exception) {
+                continue;
+            }
 
             if ($birthingPosition->hasBulkyOccupant()) {
                 continue;
