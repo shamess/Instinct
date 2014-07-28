@@ -14,4 +14,5 @@ foreach ($creatures as $creature) {
     $flatCreatures[] = $creature->toArray();
 }
 
+header("Content-Type: application/json");
 echo json_encode($flatCreatures);
