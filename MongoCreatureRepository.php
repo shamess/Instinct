@@ -36,10 +36,12 @@ class MongoCreatureRepository
     private function flatToCreature(array $flatCreature)
     {
         $color = new ColorChromosome($flatCreature['chromosomes']['color']);
+        $reproduction = new ReproductionChromosome($flatCreature['chromosomes']['reproduce']);
 
         $creature = new Creature($flatCreature['x'], $flatCreature['y']);
         $creature->setId($flatCreature['_id']);
         $creature->addToGenome($color);
+        $creature->addToGenome($reproduction);
 
         return $creature;
     }
@@ -57,7 +59,7 @@ class MongoCreatureRepository
         );
 
         foreach ($creature->getChromosomePairs() as $pair) {
-            $flatCreature['chromosomes'][$pair->getName()] = $pair->getGenesAsString();
+            $flatCreature['chromosomes'][$pair->getName()] = $pair->getGeneSequence();
         }
 
         $this->creatures->update(

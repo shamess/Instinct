@@ -2,24 +2,14 @@
 
 class ColorChromosome extends ChromosomePair
 {
-    private $genesSwitches, $genesString;
-
     public function __construct($genes)
     {
-        parent::__construct("color");
-
-        $this->genesString = $genes;
-        $this->genesSwitches = $this->geneStringToArray($genes);
+        parent::__construct("color", $genes);
     }
 
     public function getValue()
     {
         return $this->decideColor();
-    }
-
-    public function getGenesAsString()
-    {
-        return $this->genesString;
     }
 
     private function decideColor()
@@ -45,16 +35,5 @@ class ColorChromosome extends ChromosomePair
         }
 
         return $rgbValues;
-    }
-
-    private function geneIsOn($setIndex, $dominant)
-    {
-        $gene = $this->genesSwitches[$setIndex];
-
-        if ($dominant) {
-            return $gene[0] || $gene[1];
-        } else {
-            return $gene[0] && $gene[1];
-        }
     }
 }

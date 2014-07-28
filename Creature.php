@@ -44,16 +44,30 @@ class Creature
         return $this->y;
     }
 
-    public function addToGenome(ChromosomePair $chromosomePair)
+    public function wantsToReproduce()
     {
-        $this->chromosomePairs[$chromosomePair->getName()] = $chromosomePair;
+        $likelihood = $this->getReproductionLikelihood();
+
+        return rand(0, 100) <= $likelihood;
+    }
+
+    public function getReproductionLikelihood()
+    {
+        $reproduction = $this->getChromosomePair('reproduce');
+        if ($reproduction === null) {
+            return -1;
+        }
+
+        return $reproduction->getValue();
     }
 
     public function reproduceByCloning($x, $y)
     {
         $newCreature = new self($x, $y);
 
-        $newCreature->addToGenome($this->getChromosomePair('color'));
+        foreach ($this->getChromosomePairs() as $pair) {
+            $newCreature->addToGenome($pair);
+        }
 
         return $newCreature;
     }
@@ -66,7 +80,13 @@ class Creature
             'id' => $this->getId(),
 
             'color' => $this->getColor(),
+            'reproduction' => $this->getReproductionLikelihood(),
         );
+    }
+
+    public function addToGenome(ChromosomePair $chromosomePair)
+    {
+        $this->chromosomePairs[$chromosomePair->getName()] = $chromosomePair;
     }
 
     public function getChromosomePairs()

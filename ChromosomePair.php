@@ -2,11 +2,15 @@
 
 abstract class ChromosomePair
 {
-    private $name;
+    protected $geneSequence, $geneSwitches;
+    protected $name;
 
-    public function __construct($pairName)
+    public function __construct($pairName, $geneSequence)
     {
         $this->name = $pairName;
+        $this->geneSequence = $geneSequence;
+
+        $this->geneSwitches = $this->geneSequenceToArray($geneSequence);
     }
 
     public function getName()
@@ -14,7 +18,25 @@ abstract class ChromosomePair
         return $this->name;
     }
 
-    protected function geneStringToArray($geneString)
+    public function getGeneSequence()
+    {
+        return $this->geneSequence;
+    }
+
+    abstract public function getValue();
+
+    protected function geneIsOn($setIndex, $dominant)
+    {
+        $gene = $this->geneSwitches[$setIndex];
+
+        if ($dominant) {
+            return $gene[0] || $gene[1];
+        } else {
+            return $gene[0] && $gene[1];
+        }
+    }
+
+    private function geneSequenceToArray($geneString)
     {
         $genePairs = explode(';', $geneString);
 
@@ -29,6 +51,4 @@ abstract class ChromosomePair
         return $geneSets;
     }
 
-    abstract public function getValue();
-    abstract public function getGenesAsString();
 }
