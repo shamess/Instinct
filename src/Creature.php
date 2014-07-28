@@ -17,17 +17,6 @@ class Creature
         $this->y = $y;
     }
 
-    public function getColor()
-    {
-        $color = $this->getChromosomePair('color');
-
-        if ($color) {
-            return $color->getValue();
-        }
-
-        return array('r' => 255, 'g' => 255, 'b' => 255);
-    }
-
     public function setId($id)
     {
         $this->id = $id;
@@ -46,6 +35,17 @@ class Creature
     public function getY()
     {
         return $this->y;
+    }
+
+    public function getColor()
+    {
+        $color = $this->getChromosomePair('color');
+
+        if ($color) {
+            return $color->getValue();
+        }
+
+        return array('r' => 255, 'g' => 255, 'b' => 255);
     }
 
     public function wantsToReproduce()
