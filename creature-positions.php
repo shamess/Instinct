@@ -1,11 +1,8 @@
 <?php
 
-require_once 'Creature.php';
-require_once 'ChromosomePair.php';
-require_once 'ColorChromosome.php';
-require_once 'ReproductionChromosome.php';
+require_once 'vendor/autoload.php';
 
-require_once 'MongoCreatureRepository.php';
+use Instinct\MongoCreatureRepository;
 
 $creatureCollection = (new \MongoClient())->instinctdb->creature;
 $creatureRepository = new MongoCreatureRepository($creatureCollection);

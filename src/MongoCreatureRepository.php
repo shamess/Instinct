@@ -1,5 +1,11 @@
 <?php
 
+namespace Instinct;
+
+use Instinct\ColorChromosome;
+use Instinct\ReproductionChromosome;
+use Instinct\Creature;
+
 class MongoCreatureRepository
 {
     /**

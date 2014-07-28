@@ -1,5 +1,7 @@
 <?php
 
+namespace Instinct;
+
 abstract class ChromosomePair
 {
     protected $geneSequence, $geneSwitches;

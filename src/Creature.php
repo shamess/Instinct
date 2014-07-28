@@ -1,5 +1,9 @@
 <?php
 
+namespace Instinct;
+
+use Instinct\ChromosomePair;
+
 class Creature
 {
     private $x, $y;

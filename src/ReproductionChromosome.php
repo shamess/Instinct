@@ -1,5 +1,9 @@
 <?php
 
+namespace Instinct;
+
+use Instinct\ChromosomePair;
+
 class ReproductionChromosome extends ChromosomePair
 {
     public function __construct($geneSequence)

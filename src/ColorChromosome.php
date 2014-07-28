@@ -1,5 +1,9 @@
 <?php
 
+namespace Instinct;
+
+use Instinct\ChromosomePair;
+
 class ColorChromosome extends ChromosomePair
 {
     public function __construct($genes)

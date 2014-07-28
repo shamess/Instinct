@@ -1,0 +1,17 @@
+{
+    "name": "shane/instinct",
+    "description": "A simulation of things doing what comes naturally",
+    "license": "Copyright",
+    "authors": [
+        {
+            "name": "Shane Preece",
+            "email": "shane@leafcanvas.com"
+        }
+    ],
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {"Instinct\\": "src/"}
+    }
+}

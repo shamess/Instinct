@@ -1,5 +1,9 @@
 <?php
 
+namespace Instinct;
+
+use Instinct\MongoCreatureRepository;
+
 class MongoCreatureCreationRepository
 {
     private $sequenceStorage, $creatures;
