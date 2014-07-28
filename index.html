@@ -8,6 +8,32 @@
                 to { transform: rotate(-7deg); }
             }
 
+            .creature-dancing {
+                animation: dancingcreature 0.5s;
+                animation-iteration-count: infinite;
+                animation-direction: alternate;
+            }
+
+            @keyframes spawningcreature {
+                from {
+                    height: 5px;
+                    width: 5px;
+
+                    margin: 25px;
+                }
+                to {
+                    height: 50px;
+                    width: 50px;
+
+                    margin: 0px;
+                }
+            }
+
+            .creature-spawning {
+                animation: spawningcreature 0.5s;
+                animation-iteration-count: 1;
+            }
+
             .canvas {
                 margin: 0 auto;
 
@@ -30,10 +56,6 @@
                 display: block;
 
                 border-radius: 15px;
-
-                animation: dancingcreature 0.5s;
-                animation-iteration-count: infinite;
-                animation-direction: alternate;
             }
         </style>
         <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
@@ -48,13 +70,16 @@
 
             Instinct.drawCreature = function (creature) {
                 var creatureDom = $('<div>')
-                    .addClass('creature')
+                    .addClass('creature creature-dancing creature-spawning')
                     .attr('id', 'creature' + creature.id)
                     .css('left', (creature.x * 50) + "px")
                     .css('top', (creature.y * 50) + "px")
                     .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")");
 
                 $('.canvas').append(creatureDom);
+                setTimeout(function () {
+                    creatureDom.removeClass('creature-spawning');
+                }, 501);
             };
 
             $.ajax({
