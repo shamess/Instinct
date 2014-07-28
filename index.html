@@ -3,6 +3,11 @@
     <head>
         <title>Instinctual experiment</title>
         <style>
+            @keyframes dancingcreature {
+                from { transform: rotate(7deg); }
+                to { transform: rotate(-7deg); }
+            }
+
             .canvas {
                 margin: 0 auto;
 
@@ -25,6 +30,10 @@
                 display: block;
 
                 border-radius: 15px;
+
+                animation: dancingcreature 0.5s;
+                animation-iteration-count: infinite;
+                animation-direction: alternate;
             }
         </style>
         <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
