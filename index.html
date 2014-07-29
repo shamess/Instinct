@@ -34,6 +34,23 @@
                 animation-iteration-count: 1;
             }
 
+            @keyframes dyingcreature {
+                from { }
+                to {
+                    background-color: #DB5168;
+
+                    height: 5px;
+                    width: 5px;
+
+                    margin: 25px;
+                }
+            }
+
+            .creature-dying {
+                animation: dyingcreature 0.5s;
+                animation-iteration-count: 1;
+            }
+
             .canvas {
                 margin: 0 auto;
 
@@ -63,13 +80,28 @@
             var Instinct = {};
 
             Instinct.drawCreatures = function (creatures) {
+                $('.creature').data('dead', true);
+
                 creatures.forEach(function(creature) {
                     this.drawCreature(creature);
                 }, this);
+
+                $('.creature')
+                    .filter(function () {
+                        return $(this).data('dead');
+                    })
+                    .removeClass('creature-dancing')
+                    .addClass('creature-dying');
+
+                setTimeout(function () {
+                    $('.creature-dying').remove();
+                }, 501);
             };
 
             Instinct.drawCreature = function (creature) {
-                if ($('creature' + creature.id).length) {
+                if ($('#creature' + creature.id).length) {
+                    $('#creature' + creature.id).data('dead', false);
+
                     return;
                 }
 
@@ -78,7 +110,8 @@
                     .attr('id', 'creature' + creature.id)
                     .css('left', (creature.x * 50) + "px")
                     .css('top', (creature.y * 50) + "px")
-                    .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")");
+                    .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")")
+                    .data('dead', false);
 
                 $('.canvas').append(creatureDom);
                 setTimeout(function () {

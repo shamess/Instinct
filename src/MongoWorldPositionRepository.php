@@ -27,8 +27,8 @@ class MongoWorldPositionRepository
 
     private function assertWithinBounds($x, $y)
     {
-        if ($x < 0 || $x > 12 || $y < 0 || $y > 12) {
-            throw \OutOfBoundsException();
+        if ($x < 0 || $x >= 12 || $y < 0 || $y >= 12) {
+            throw new \OutOfBoundsException();
         }
     }
 }

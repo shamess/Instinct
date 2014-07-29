@@ -20,7 +20,14 @@ while (true) {
     $creatures = $creatureRepository->find();
 
     foreach ($creatures as $creature) {
-        sleep(5);
+        sleep(3);
+
+        if ($creature->isDead()) {
+            echo "Killing [" . $creature->getId() . "]\n";
+            $creatureRepository->delete($creature);
+
+            continue;
+        }
 
         if ($creature->wantsToReproduce()) {
             try {

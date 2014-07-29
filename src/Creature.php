@@ -48,6 +48,11 @@ class Creature
         return array('r' => 255, 'g' => 255, 'b' => 255);
     }
 
+    public function isDead()
+    {
+        return rand(1, 15) === 1;
+    }
+
     public function wantsToReproduce()
     {
         $likelihood = $this->getReproductionLikelihood();

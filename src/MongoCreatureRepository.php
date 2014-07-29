@@ -73,4 +73,9 @@ class MongoCreatureRepository
             array('upsert' => true)
         );
     }
+
+    public function delete(Creature $creature)
+    {
+        $this->creatures->remove(array('_id' => $creature->getId()));
+    }
 }
