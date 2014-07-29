@@ -1,0 +1,13 @@
+.canvas {
+    margin: 0 auto;
+
+    width: 600px;
+    height: 600px;
+
+    background-color: #09EA76; 
+
+    position: relative;
+
+    border-radius: 10px;
+}
+

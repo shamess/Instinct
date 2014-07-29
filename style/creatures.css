@@ -1,0 +1,59 @@
+@keyframes dancingcreature {
+    from { transform: rotate(7deg); }
+    to { transform: rotate(-7deg); }
+}
+
+.creature-dancing {
+    animation: dancingcreature 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes spawningcreature {
+    from {
+        height: 5px;
+        width: 5px;
+
+        margin: 25px;
+    }
+    to {
+        height: 50px;
+        width: 50px;
+
+        margin: 0px;
+    }
+}
+
+.creature-spawning {
+    animation: spawningcreature 0.5s;
+    animation-iteration-count: 1;
+}
+
+@keyframes dyingcreature {
+    from { }
+    to {
+        background-color: #DB5168;
+
+        height: 5px;
+        width: 5px;
+
+        margin: 25px;
+    }
+}
+
+.creature-dying {
+    animation: dyingcreature 0.5s;
+    animation-iteration-count: 1;
+}
+
+.creature {
+    position: absolute;
+
+    height: 50px;
+    width: 50px;
+
+    display: block;
+
+    border-radius: 15px;
+}
+

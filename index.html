@@ -2,79 +2,8 @@
 <html>
     <head>
         <title>Instinctual experiment</title>
-        <style>
-            @keyframes dancingcreature {
-                from { transform: rotate(7deg); }
-                to { transform: rotate(-7deg); }
-            }
-
-            .creature-dancing {
-                animation: dancingcreature 0.5s;
-                animation-iteration-count: infinite;
-                animation-direction: alternate;
-            }
-
-            @keyframes spawningcreature {
-                from {
-                    height: 5px;
-                    width: 5px;
-
-                    margin: 25px;
-                }
-                to {
-                    height: 50px;
-                    width: 50px;
-
-                    margin: 0px;
-                }
-            }
-
-            .creature-spawning {
-                animation: spawningcreature 0.5s;
-                animation-iteration-count: 1;
-            }
-
-            @keyframes dyingcreature {
-                from { }
-                to {
-                    background-color: #DB5168;
-
-                    height: 5px;
-                    width: 5px;
-
-                    margin: 25px;
-                }
-            }
-
-            .creature-dying {
-                animation: dyingcreature 0.5s;
-                animation-iteration-count: 1;
-            }
-
-            .canvas {
-                margin: 0 auto;
-
-                width: 600px;
-                height: 600px;
-
-                background-color: #09EA76; 
-
-                position: relative;
-
-                border-radius: 10px;
-            }
-
-            .creature {
-                position: absolute;
-
-                height: 50px;
-                width: 50px;
-
-                display: block;
-
-                border-radius: 15px;
-            }
-        </style>
+        <link rel="stylesheet" href="style/world.css" />
+        <link rel="stylesheet" href="style/creatures.css" />
         <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
         <script data-main="js/main" src="js/require.js"></script>
     </head>
