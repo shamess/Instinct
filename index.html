@@ -76,63 +76,7 @@
             }
         </style>
         <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-        <script>
-            var Instinct = {};
-
-            Instinct.drawCreatures = function (creatures) {
-                $('.creature').data('dead', true);
-
-                creatures.forEach(function(creature) {
-                    this.drawCreature(creature);
-                }, this);
-
-                $('.creature')
-                    .filter(function () {
-                        return $(this).data('dead');
-                    })
-                    .removeClass('creature-dancing')
-                    .addClass('creature-dying');
-
-                setTimeout(function () {
-                    $('.creature-dying').remove();
-                }, 501);
-            };
-
-            Instinct.drawCreature = function (creature) {
-                if ($('#creature' + creature.id).length) {
-                    $('#creature' + creature.id).data('dead', false);
-
-                    return;
-                }
-
-                var creatureDom = $('<div>')
-                    .addClass('creature creature-spawning')
-                    .attr('id', 'creature' + creature.id)
-                    .css('left', (creature.x * 50) + "px")
-                    .css('top', (creature.y * 50) + "px")
-                    .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")")
-                    .data('dead', false);
-
-                $('.canvas').append(creatureDom);
-                setTimeout(function () {
-                    creatureDom
-                        .removeClass('creature-spawning')
-                        .addClass('creature-dancing');
-                }, 501);
-            };
-
-            Instinct.loadCreatures = function () {
-                $.ajax({
-                    url: 'creature-positions.php',
-                    success: Instinct.drawCreatures,
-                    dataType: 'json',
-                    context: Instinct
-                });
-            };
-
-            Instinct.loadCreatures();
-            setInterval(Instinct.loadCreatures, 5000);
-        </script>
+        <script data-main="js/main" src="js/require.js"></script>
     </head>
     <body>
         <div class="canvas">
