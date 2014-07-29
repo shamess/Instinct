@@ -20,6 +20,7 @@ while (true) {
     $creatures = $creatureRepository->find();
 
     foreach ($creatures as $creature) {
+        $creature->tick();
         sleep(3);
 
         if ($creature->isDead()) {
@@ -27,6 +28,8 @@ while (true) {
             $creatureRepository->delete($creature);
 
             continue;
+        } else {
+            $creatureRepository->save($creature);
         }
 
         if ($creature->wantsToReproduce()) {

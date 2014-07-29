@@ -46,6 +46,7 @@ class MongoCreatureRepository
 
         $creature = new Creature($flatCreature['x'], $flatCreature['y']);
         $creature->setId($flatCreature['_id']);
+        $creature->setHunger($flatCreature['hunger']);
         $creature->addToGenome($color);
         $creature->addToGenome($reproduction);
 
@@ -61,6 +62,7 @@ class MongoCreatureRepository
         $flatCreature = array(
             'x' => $creature->getX(),
             'y' => $creature->getY(),
+            'hunger' => $creature->getHunger(),
             'chromosomes' => array(),
         );
 

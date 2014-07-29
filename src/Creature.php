@@ -8,6 +8,7 @@ class Creature
 {
     private $x, $y;
     private $id = null;
+    private $hunger = 1;
 
     private $chromosomePairs = array();
 
@@ -15,6 +16,11 @@ class Creature
     {
         $this->x = $x;
         $this->y = $y;
+    }
+
+    public function tick()
+    {
+        $this->hunger--;
     }
 
     public function setId($id)
@@ -50,7 +56,22 @@ class Creature
 
     public function isDead()
     {
-        return rand(1, 15) === 1;
+        return $this->isStarved();
+    }
+
+    public function setHunger($hungerLevel)
+    {
+        $this->hunger = $hungerLevel;
+    }
+
+    public function getHunger()
+    {
+        return $this->hunger;
+    }
+
+    public function isStarved()
+    {
+        return $this->hunger < 1;
     }
 
     public function wantsToReproduce()
