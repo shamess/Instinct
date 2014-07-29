@@ -106,7 +106,7 @@
                 }
 
                 var creatureDom = $('<div>')
-                    .addClass('creature creature-dancing creature-spawning')
+                    .addClass('creature creature-spawning')
                     .attr('id', 'creature' + creature.id)
                     .css('left', (creature.x * 50) + "px")
                     .css('top', (creature.y * 50) + "px")
@@ -115,18 +115,23 @@
 
                 $('.canvas').append(creatureDom);
                 setTimeout(function () {
-                    creatureDom.removeClass('creature-spawning');
+                    creatureDom
+                        .removeClass('creature-spawning')
+                        .addClass('creature-dancing');
                 }, 501);
             };
 
-            setInterval(function () {
+            Instinct.loadCreatures = function () {
                 $.ajax({
                     url: 'creature-positions.php',
                     success: Instinct.drawCreatures,
                     dataType: 'json',
                     context: Instinct
                 });
-            }, 5000);
+            };
+
+            Instinct.loadCreatures();
+            setInterval(Instinct.loadCreatures, 5000);
         </script>
     </head>
     <body>
