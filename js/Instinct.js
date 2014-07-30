@@ -1,4 +1,4 @@
-define([], function () {
+define(['handlebars'], function (Handlebars) {
     var Instinct = {};
 
     Instinct.drawCreatures = function (creatures) {
@@ -33,7 +33,11 @@ define([], function () {
             .css('left', (creature.x * 50) + "px")
             .css('top', (creature.y * 50) + "px")
             .css('background-color', "rgb(" + creature.color.r + "," + creature.color.g + "," + creature.color.b + ")")
-            .data('dead', false);
+            .data('dead', false)
+            .data('rawData', creature)
+            .click($.proxy(function (event) {
+                this.displaySidebar($(event.target).data('rawData'));
+            }, this));
 
         $('.canvas').append(creatureDom);
         setTimeout(function () {
@@ -50,6 +54,15 @@ define([], function () {
             dataType: 'json',
             context: Instinct
         });
+    };
+
+    Instinct.displaySidebar = function (creatureData) {
+        var creatureSidebarHtml = $('#sidebar-creature').text(),
+            creatureSidebarTemplate = Handlebars.compile(creatureSidebarHtml);
+
+        $('#sidebar')
+            .html(creatureSidebarTemplate(creatureData))
+            .show();
     };
 
     return Instinct;

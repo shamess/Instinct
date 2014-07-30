@@ -1,0 +1,23 @@
+h1,
+p {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    width: 1000px;
+
+    margin: 0 auto;
+}
+
+.sidebar {
+    width: 368px;
+
+    display: none;
+    float: left;
+
+    padding: 1em;
+}
+
+.canvas {
+    float: left;
+}

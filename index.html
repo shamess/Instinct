@@ -2,14 +2,27 @@
 <html>
     <head>
         <title>Instinctual experiment</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+        <link rel="stylesheet" href="style/ui.css" />
         <link rel="stylesheet" href="style/world.css" />
         <link rel="stylesheet" href="style/creatures.css" />
         <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
         <script data-main="js/main" src="js/require.js"></script>
+
+        <script type="text/x-handlebars-template" id="sidebar-creature">
+            <h1>This is creature ID: {{ id }}</h1>
+
+            <p><strong>Hunger:</strong> {{ hunger }}</p>
+        </script>
     </head>
     <body>
-        <div class="canvas">
+        <div class="container">
+            <div class="canvas">
 
+            </div>
+            <div id="sidebar" class="sidebar">
+
+            </div>
         </div>
     </body>
 </html>
