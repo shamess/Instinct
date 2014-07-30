@@ -18,11 +18,6 @@ class Creature
         $this->y = $y;
     }
 
-    public function tick()
-    {
-        $this->hunger--;
-    }
-
     public function setId($id)
     {
         $this->id = $id;
@@ -108,6 +103,7 @@ class Creature
             'x' => $this->getX(),
             'y' => $this->getY(),
             'id' => $this->getId(),
+            'hunger' => $this->getHunger(),
 
             'color' => $this->getColor(),
             'reproduction' => $this->getReproductionLikelihood(),

@@ -11,12 +11,9 @@ class CreatureTest extends \PHPUnit_Framework_TestCase
         $this->creature = new Creature(3, 4);
     }
 
-    public function testTickDecreasesHunger()
+    public function testXYAreReturnedUntouched()
     {
-        $this->creature->setHunger(5);
-
-        $this->creature->tick();
-
-        $this->assertEquals(4, $this->creature->getHunger());
+        $this->assertEquals(3, $this->creature->getX());
+        $this->assertEquals(4, $this->creature->getY());
     }
 }

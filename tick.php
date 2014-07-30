@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use Instinct\MongoCreatureRepository;
 use Instinct\MongoCreatureCreationRepository;
 use Instinct\MongoWorldPositionRepository;
+use Instinct\Creature\Tick;
 
 $client = new \MongoClient();
 
@@ -20,7 +21,10 @@ while (true) {
     $creatures = $creatureRepository->find();
 
     foreach ($creatures as $creature) {
-        $creature->tick();
+        $originalCreatureData = $creature->toArray();
+
+        $tick = new Tick($creature);
+        $tick->tick();
         sleep(3);
 
         if ($creature->isDead()) {
@@ -28,25 +32,26 @@ while (true) {
             $creatureRepository->delete($creature);
 
             continue;
-        } else {
-            $creatureRepository->save($creature);
         }
 
         if ($creature->wantsToReproduce()) {
+            $canBirth = true;
             try {
                 $birthingPosition = $worldPositionRepository->findByXY($creature->getX() + rand(-1,1), $creature->getY() + rand(-1,1));
             } catch (\OutOfBoundsException $exception) {
-                continue;
+                $canBirth = false;
             }
 
-            if ($birthingPosition->hasBulkyOccupant()) {
-                continue;
+            if ($canBirth && !$birthingPosition->hasBulkyOccupant()) {
+                $newCreature = $creature->reproduceByCloning($birthingPosition->getX(), $birthingPosition->getY());
+                $creatureCreationRepository->save($newCreature);
+
+                echo "Added new creature! [" . $newCreature->getX() . "," . $newCreature->getY() . "]\n";
             }
+        }
 
-            $newCreature = $creature->reproduceByCloning($birthingPosition->getX(), $birthingPosition->getY());
-            $creatureCreationRepository->save($newCreature);
-
-            echo "Added new creature! [" . $newCreature->getX() . "," . $newCreature->getY() . "]\n";
+        if ($originalCreatureData !== $creature->toArray()) {
+            $creatureRepository->save($creature);
         }
     }
 }

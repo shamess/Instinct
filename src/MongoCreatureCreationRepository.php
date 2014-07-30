@@ -3,6 +3,7 @@
 namespace Instinct;
 
 use Instinct\MongoCreatureRepository;
+use Instinct\Creature\Creature;
 
 class MongoCreatureCreationRepository
 {
