@@ -1,8 +1,8 @@
 <?php
 
-namespace Instinct\Test;
+namespace Instinct\Tests\Creature;
 
-use Instinct\Creature;
+use Instinct\Creature\Creature;
 
 class CreatureTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Instinct;
+namespace Instinct\Creature;
 
 use Instinct\ChromosomePair;
 

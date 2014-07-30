@@ -4,7 +4,7 @@ namespace Instinct;
 
 use Instinct\ColorChromosome;
 use Instinct\ReproductionChromosome;
-use Instinct\Creature;
+use Instinct\Creature\Creature;
 
 class MongoCreatureRepository
 {
