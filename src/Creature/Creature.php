@@ -89,6 +89,7 @@ class Creature
     public function reproduceByCloning($x, $y)
     {
         $newCreature = new self($x, $y);
+        $newCreature->setHunger(10);
 
         foreach ($this->getChromosomePairs() as $pair) {
             $newCreature->addToGenome($pair);
