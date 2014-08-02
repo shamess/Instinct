@@ -24,6 +24,8 @@ define(['handlebars'], function (Handlebars) {
         if ($('#creature' + creature.id).length) {
             $('#creature' + creature.id).data('dead', false);
 
+            this.updateCreature(creature);
+
             return;
         }
 
@@ -54,6 +56,20 @@ define(['handlebars'], function (Handlebars) {
             dataType: 'json',
             context: Instinct
         });
+    };
+
+    Instinct.updateCreature = function (creature) {
+        var creatureDom = $('#creature' + creature.id);
+
+        if (creature.x != creatureDom.data('rawData').x || creature.y != creatureDom.data('rawData').y) {
+            creatureDom
+                .animate({
+                    left: (creature.x * 50) + "px",
+                    top: (creature.y * 50) + "px"
+                }, 500);
+        }
+
+        creatureDom.data('rawData', creature);
     };
 
     Instinct.displaySidebar = function (creatureData) {
