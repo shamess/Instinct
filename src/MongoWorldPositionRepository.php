@@ -25,10 +25,36 @@ class MongoWorldPositionRepository
         return $worldPosition;
     }
 
+    public function findSurroundingByXY($x, $y)
+    {
+        $surrounding = array();
+
+        for($xDiff = -1; $xDiff <= 1; $xDiff++) {
+            for($yDiff = -1; $yDiff <= 1; $yDiff++) {
+                if ($yDiff === 0 && $xDiff === 0) {
+                    continue;
+                }
+
+                if (!$this->isWithinBounds($x + $xDiff, $y + $yDiff)) {
+                    continue;
+                }
+
+                $surrounding[] = $this->findByXY($x + $xDiff, $y + $yDiff);
+            }
+        }
+
+        return $surrounding;
+    }
+
     private function assertWithinBounds($x, $y)
     {
-        if ($x < 0 || $x >= 12 || $y < 0 || $y >= 12) {
+        if (false === $this->isWithinBounds($x, $y)) {
             throw new \OutOfBoundsException();
         }
+    }
+
+    private function isWithinBounds($x, $y)
+    {
+        return ($x >= 0 && $x <= 11 && $y >= 0 && $y <= 11);
     }
 }

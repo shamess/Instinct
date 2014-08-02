@@ -3,6 +3,7 @@
 namespace Instinct\Creature;
 
 use Instinct\ChromosomePair;
+use Instinct\WorldPosition;
 
 class Creature
 {
@@ -14,8 +15,8 @@ class Creature
 
     public function __construct($x, $y)
     {
-        $this->x = $x;
-        $this->y = $y;
+        $this->setX($x);
+        $this->setY($y);
     }
 
     public function setId($id)
@@ -28,6 +29,11 @@ class Creature
         return $this->id;
     }
 
+    public function setX($x)
+    {
+        $this->x = $x;
+    }
+
     public function getX()
     {
         return $this->x;
@@ -36,6 +42,11 @@ class Creature
     public function getY()
     {
         return $this->y;
+    }
+
+    public function setY($y)
+    {
+        $this->y = $y;
     }
 
     public function getColor()
@@ -67,6 +78,17 @@ class Creature
     public function isStarved()
     {
         return $this->hunger < 1;
+    }
+
+    public function wantsToMove()
+    {
+        return 1 === rand(1, 15);
+    }
+
+    public function move(WorldPosition $position)
+    {
+        $this->setX($position->getX());
+        $this->setY($position->getY());
     }
 
     public function wantsToReproduce()

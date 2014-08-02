@@ -6,6 +6,7 @@ use Instinct\MongoCreatureRepository;
 use Instinct\MongoCreatureCreationRepository;
 use Instinct\MongoWorldPositionRepository;
 use Instinct\Creature\Tick;
+use Instinct\Intent\Arbitrator\MovementArbitrator;
 
 $client = new \MongoClient();
 
@@ -22,6 +23,7 @@ while (true) {
 
     foreach ($creatures as $creature) {
         $originalCreatureData = $creature->toArray();
+        $canStillAct = true;
 
         $tick = new Tick($creature);
         $tick->tick();
@@ -34,7 +36,19 @@ while (true) {
             continue;
         }
 
-        if ($creature->wantsToReproduce()) {
+        if ($canStillAct && $creature->wantsToMove()) {
+            $movementArbitrator = new MovementArbitrator($creature, $worldPositionRepository);
+            $intendedPosition = $movementArbitrator->getPositionToMoveTo();
+
+            if ($intendedPosition && !$intendedPosition->hasBulkyOccupant()) {
+                echo "Moving " . $creature->getId() . " to [" . $intendedPosition->getX() . "," . $intendedPosition->getY() . "]\n";
+                $creature->move($intendedPosition);
+
+                $canStillAct = false;
+            }
+        }
+
+        if ($canStillAct && $creature->wantsToReproduce()) {
             $canBirth = true;
             try {
                 $birthingPosition = $worldPositionRepository->findByXY($creature->getX() + rand(-1,1), $creature->getY() + rand(-1,1));
@@ -45,6 +59,8 @@ while (true) {
             if ($canBirth && !$birthingPosition->hasBulkyOccupant()) {
                 $newCreature = $creature->reproduceByCloning($birthingPosition->getX(), $birthingPosition->getY());
                 $creatureCreationRepository->save($newCreature);
+
+                $canStillAct = false;
 
                 echo "Added new creature! [" . $newCreature->getX() . "," . $newCreature->getY() . "]\n";
             }
