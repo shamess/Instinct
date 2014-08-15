@@ -1,4 +1,4 @@
-define(['handlebars'], function (Handlebars) {
+define(['handlebars', 'EventListener'], function (Handlebars, eventListener) {
     var Instinct = {};
 
     Instinct.drawCreatures = function (creatures) {
@@ -24,7 +24,7 @@ define(['handlebars'], function (Handlebars) {
         if ($('#creature' + creature.id).length) {
             $('#creature' + creature.id).data('dead', false);
 
-            this.updateCreature(creature);
+            eventListener.trigger('creature.update', creature);
 
             return;
         }
@@ -38,7 +38,7 @@ define(['handlebars'], function (Handlebars) {
             .data('dead', false)
             .data('rawData', creature)
             .click($.proxy(function (event) {
-                this.displaySidebar($(event.target).data('rawData'));
+                eventListener.trigger('ui.sidebar.update', $(event.target).data('rawData'));
             }, this));
 
         $('.canvas').append(creatureDom);
@@ -58,7 +58,7 @@ define(['handlebars'], function (Handlebars) {
         });
     };
 
-    Instinct.updateCreature = function (creature) {
+    eventListener.bind('creature.update', function (creature) {
         var creatureDom = $('#creature' + creature.id);
 
         if (creature.x != creatureDom.data('rawData').x || creature.y != creatureDom.data('rawData').y) {
@@ -70,16 +70,21 @@ define(['handlebars'], function (Handlebars) {
         }
 
         creatureDom.data('rawData', creature);
-    };
 
-    Instinct.displaySidebar = function (creatureData) {
+        if ($('#sidebar').data('inView') == "creature-" + creature.id) {
+            eventListener.trigger('ui.sidebar.update', creature);
+        }
+    });
+
+    eventListener.bind('ui.sidebar.update', function (creatureData) {
         var creatureSidebarHtml = $('#sidebar-creature').text(),
             creatureSidebarTemplate = Handlebars.compile(creatureSidebarHtml);
 
         $('#sidebar')
             .html(creatureSidebarTemplate(creatureData))
-            .show();
-    };
+            .show()
+            .data('inView', 'creature-' + creatureData.id);
+    });
 
     return Instinct;
 });

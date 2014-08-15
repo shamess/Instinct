@@ -82,7 +82,7 @@ class Creature
 
     public function wantsToMove()
     {
-        return 1 === rand(1, 15);
+        return 1 === rand(1, 8);
     }
 
     public function move(WorldPosition $position)
