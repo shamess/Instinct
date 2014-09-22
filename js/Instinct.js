@@ -20,6 +20,33 @@ define(['handlebars', 'EventListener'], function (Handlebars, eventListener) {
         }, 501);
     };
 
+    Instinct.drawPlants = function (plants) {
+        plants.forEach(function(plant) {
+            console.log("plant!", plant);
+            if ($('#plant' + plant.id).length) {
+                $('#plant' + plant.id).data('dead', false);
+
+                eventListener.trigger('plant.update', plant);
+
+                return;
+            }
+
+            var plantDom = $('<div>')
+                .addClass('plant plant-spawning')
+                .attr('id', 'plant' + plant.id)
+                .css('left', ((plant.x * 50) + 10) + "px")
+                .css('top', ((plant.y * 50) + 15) + "px")
+                .css('background-color', "rgba(86, 228, 108, 1)");
+
+            $('.canvas').append(plantDom);
+            setTimeout(function () {
+                plantDom
+                    .removeClass('plant-spawning')
+                    .addClass('plant-dancing');
+            }, 501);
+        });
+    };
+
     Instinct.drawCreature = function (creature) {
         if ($('#creature' + creature.id).length) {
             $('#creature' + creature.id).data('dead', false);
@@ -52,7 +79,10 @@ define(['handlebars', 'EventListener'], function (Handlebars, eventListener) {
     Instinct.loadCreatures = function () {
         $.ajax({
             url: 'creature-positions.php',
-            success: Instinct.drawCreatures,
+            success: function (data) {
+                Instinct.drawCreatures(data.creatures);
+                Instinct.drawPlants(data.plants);
+            },
             dataType: 'json',
             context: Instinct
         });

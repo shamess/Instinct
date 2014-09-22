@@ -57,3 +57,26 @@
     border-radius: 15px;
 }
 
+@keyframes dancingplant {
+    from { transform: rotate(180deg); }
+    to { transform: rotate(-50deg); }
+}
+
+.plant-dancing {
+    animation: dancingplant 3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+.plant {
+    position: absolute;
+
+    height: 30px;
+    width: 20px;
+
+    display: block;
+
+    border-radius: 100px 50px;
+}
+
